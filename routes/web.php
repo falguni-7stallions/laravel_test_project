@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +37,9 @@ Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.c
 Route::get('/greeting', function () {
     return view('cart.greeting-page');
 })->name('greeting.page');
+
+Route::post('/checkout', [StripePaymentController::class, 'checkout'])->name('checkout');
+Route::get('/success', [StripePaymentController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/cancel', [StripePaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
 require __DIR__.'/auth.php';

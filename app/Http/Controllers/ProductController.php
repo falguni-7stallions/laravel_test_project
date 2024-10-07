@@ -31,7 +31,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|string',
             'image' => 'required',
             'description' => 'required',
@@ -78,7 +78,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, product $products, int $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required|string',
             'description' => 'required',
             'price' => 'required|numeric',

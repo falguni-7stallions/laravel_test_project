@@ -31,7 +31,7 @@
                             <hr class="p-3">
                         </div>
                     @endforeach
-                    <div class="row mt-8 float-end"><strong>total Amount: ${{$total}}</strong><hr class="p-2"> <form action="{{ route('cart.checkout') }}" method="POST">
+                    <div class="row mt-8 float-end"><strong>total Amount: ${{$total}}</strong><hr class="p-2"> <form action="{{ route('checkout') }}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-success">Checkout</button>
                         </form></div>
