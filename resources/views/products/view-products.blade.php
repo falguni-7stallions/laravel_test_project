@@ -9,31 +9,33 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex flex-wrap justify-between space-x-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @foreach($products as $product)
-                    <div class="card mt-3" style="width: 18rem;">
-                        <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                    <div class="card mt-3 shadow-lg rounded-md overflow-hidden flex flex-col">
+                        <div class="flex-grow">
                             <div class="card-body p-4">
                                 <h3 class="text-lg font-bold">{{ $product->name }}
                                     <div class="float-end">
-                                        <a onclick="addToFavorite({{ $product->id }})"><i class="{{in_array($product->id, $wishlistItems) ? "fa fa-heart text-danger" : "fa fa-heart-o"}}" ></i>
+                                        <a onclick="addToFavorite({{ $product->id }})">
+                                            <i class="{{ in_array($product->id, $wishlistItems) ? 'fa fa-heart text-danger' : 'fa fa-heart-o' }}"></i>
                                         </a>
                                     </div>
                                 </h3>
                                 @if($product->image)
-                                    <img src="{{ asset('uploads/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-auto rounded-md mb-2">
+                                    <img src="{{ asset('uploads/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover rounded-md mb-2">
                                 @endif
                                 <p class="card-text">{{ $product->description }}</p>
                                 <p class="card-text font-semibold">${{ $product->price }}</p>
-
                             </div>
-                            <div class="card"><a href="#" class="btn btn-success" onclick="addToCart({{ $product->id }})">Add to Cart</a></div>
                         </div>
+                        <a href="#" class="btn btn-success m-3" onclick="addToCart({{ $product->id }})">Add to Cart</a>
                     </div>
                 @endforeach
             </div>
         </div>
     </div>
+
+
 </x-app-layout>
 
 <script>
