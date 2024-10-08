@@ -211,7 +211,7 @@
 
     <nav id="header-nav" class="navbar navbar-expand-lg py-3">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand">
                 <img src="images/main-logo.png" class="logo">
             </a>
             <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
@@ -276,6 +276,25 @@
                         <li class="nav-item">
                             <a class="nav-link me-4" href="#">Contact</a>
                         </li>
+                        @if (Route::has('login'))
+{{--                            <nav class="-mx-3 flex flex-1 justify-end">--}}
+                                @auth
+                                <li class="nav-item">
+                                    <a href="{{ url('/dashboard') }}" class="nav-link me-4">{{__('Dashboard')}}</a>
+                                </li>
+                                @else
+                                <li class="nav-item">
+                                    <a href="{{ route('login') }}" class="nav-link me-4">{{__('Log in')}}</a>
+                                </li>
+
+                                    @if (Route::has('register'))
+                                    <li class="nav-item">
+                                        <a href="{{ route('register') }}" class="nav-link me-4">{{__('Register')}}</a>
+                                    </li>
+                                    @endif
+                                @endauth
+{{--                            </nav>--}}
+                        @endif
                     </ul>
                     <div class="user-items d-flex">
                         <ul class="d-flex justify-content-end list-unstyled mb-0">
