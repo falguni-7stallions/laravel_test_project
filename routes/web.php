@@ -41,5 +41,7 @@ Route::get('/greeting', function () {
 Route::post('/checkout', [StripePaymentController::class, 'checkout'])->name('checkout');
 Route::get('/success', [StripePaymentController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/cancel', [StripePaymentController::class, 'paymentCancel'])->name('payment.cancel');
+Route::get('/product/{id}', [ProductController::class, 'getProduct'])->name('product.get');
+
 
 require __DIR__.'/auth.php';

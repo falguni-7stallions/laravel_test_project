@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = product::paginate(5);
+        $products = product::paginate(10);
         return view('products.index', compact('products'));
     }
 
@@ -136,4 +136,18 @@ class ProductController extends Controller
             'wishlistItems' => $wishlistItems,
         ]);
     }
+    public function getProduct($id)
+    {
+        $product = product::findOrFail($id);
+
+        // You can return only the fields you need
+        return response()->json([
+            'id' => $product->id,
+            'name' => $product->name,
+            'description' => $product->description,
+            'price' => $product->price,
+            'image' => asset('uploads/products/' . $product->image),
+        ]);
+    }
+
 }

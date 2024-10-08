@@ -27,7 +27,6 @@
                                 @if($item->product->image)
                                     <img src="{{ asset('uploads/products/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="w-full h-48 object-cover rounded-md mb-2">
                                 @endif
-                                <p class="card-text">{{ $item->product->description }}</p>
                                 <p class="card-text font-semibold">${{ $item->product->price }}</p>
                             </div>
                         </div>
