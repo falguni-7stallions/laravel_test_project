@@ -1,172 +1,1748 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <title>Bookly - Bookstore eCommerce Website Template</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+{{--    <link rel="stylesheet" type="text/css" href="{{asset('/resources/css/style.css')}}">--}}
+    @vite('resources/css/style.css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="search" xmlns="http://www.w3.org/2000/symbolsvg" viewBox="0 0 24 24">
+        <path fill="currentColor" fill-rule="evenodd"
+              d="M11.5 2.75a8.75 8.75 0 1 0 0 17.5a8.75 8.75 0 0 0 0-17.5M1.25 11.5c0-5.66 4.59-10.25 10.25-10.25S21.75 5.84 21.75 11.5c0 2.56-.939 4.902-2.491 6.698l3.271 3.272a.75.75 0 1 1-1.06 1.06l-3.272-3.271A10.21 10.21 0 0 1 11.5 21.75c-5.66 0-10.25-4.59-10.25-10.25"
+              clip-rule="evenodd" />
+    </symbol>
+    <symbol id="user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path fill="currentColor" fill-rule="evenodd"
+              d="M12 1.25a4.75 4.75 0 1 0 0 9.5a4.75 4.75 0 0 0 0-9.5M8.75 6a3.25 3.25 0 1 1 6.5 0a3.25 3.25 0 0 1-6.5 0M12 12.25c-2.313 0-4.445.526-6.024 1.414C4.42 14.54 3.25 15.866 3.25 17.5v.102c-.001 1.162-.002 2.62 1.277 3.662c.629.512 1.51.877 2.7 1.117c1.192.242 2.747.369 4.773.369s3.58-.127 4.774-.369c1.19-.24 2.07-.605 2.7-1.117c1.279-1.042 1.277-2.5 1.276-3.662V17.5c0-1.634-1.17-2.96-2.725-3.836c-1.58-.888-3.711-1.414-6.025-1.414M4.75 17.5c0-.851.622-1.775 1.961-2.528c1.316-.74 3.184-1.222 5.29-1.222c2.104 0 3.972.482 5.288 1.222c1.34.753 1.961 1.677 1.961 2.528c0 1.308-.04 2.044-.724 2.6c-.37.302-.99.597-2.05.811c-1.057.214-2.502.339-4.476.339c-1.974 0-3.42-.125-4.476-.339c-1.06-.214-1.68-.509-2.05-.81c-.684-.557-.724-1.293-.724-2.601"
+              clip-rule="evenodd" />
+    </symbol>
+    <symbol id="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path fill="currentColor" fill-rule="evenodd"
+              d="M5.624 4.424C3.965 5.182 2.75 6.986 2.75 9.137c0 2.197.9 3.891 2.188 5.343c1.063 1.196 2.349 2.188 3.603 3.154c.298.23.594.459.885.688c.526.415.995.778 1.448 1.043c.452.264.816.385 1.126.385c.31 0 .674-.12 1.126-.385c.453-.265.922-.628 1.448-1.043c.29-.23.587-.458.885-.687c1.254-.968 2.54-1.959 3.603-3.155c1.289-1.452 2.188-3.146 2.188-5.343c0-2.15-1.215-3.955-2.874-4.713c-1.612-.737-3.778-.542-5.836 1.597a.75.75 0 0 1-1.08 0C9.402 3.882 7.236 3.687 5.624 4.424M12 4.46C9.688 2.39 7.099 2.1 5 3.059C2.786 4.074 1.25 6.426 1.25 9.138c0 2.665 1.11 4.699 2.567 6.339c1.166 1.313 2.593 2.412 3.854 3.382c.286.22.563.434.826.642c.513.404 1.063.834 1.62 1.16c.557.325 1.193.59 1.883.59s1.326-.265 1.883-.59c.558-.326 1.107-.756 1.62-1.16a78.6 78.6 0 0 1 .826-.642c1.26-.97 2.688-2.07 3.854-3.382c1.457-1.64 2.567-3.674 2.567-6.339c0-2.712-1.535-5.064-3.75-6.077c-2.099-.96-4.688-.67-7 1.399"
+              clip-rule="evenodd" />
+    </symbol>
+    <symbol id="cart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path fill="currentColor" fill-rule="evenodd"
+              d="M2.249 2.292a.75.75 0 1 0-.498 1.416l.262.091c.667.235 1.106.39 1.429.549c.303.149.437.27.525.398c.09.132.16.314.2.677c.04.38.041.875.041 1.615V9.76c0 1.453.014 2.5.151 3.3c.146.854.438 1.466.985 2.042c.594.627 1.346.9 2.243 1.026c.858.122 1.948.122 3.293.122h5.406c.742 0 1.366 0 1.87-.062c.537-.065 1.025-.209 1.452-.556c.426-.348.665-.797.837-1.309c.163-.482.289-1.093.439-1.82l.508-2.469l.002-.005l.01-.052c.165-.825.303-1.519.338-2.077c.036-.586-.031-1.164-.413-1.66c-.235-.306-.565-.479-.866-.584a4.617 4.617 0 0 0-1.002-.21c-.687-.076-1.522-.076-2.34-.076H5.667a5.932 5.932 0 0 0-.01-.108c-.054-.497-.17-.95-.453-1.362c-.284-.416-.662-.682-1.102-.899c-.412-.202-.936-.386-1.553-.603zm3.46 4.578h11.38c.856 0 1.61.001 2.205.067c.296.034.517.08.672.134a.56.56 0 0 1 .176.086c.062.082.128.23.102.651c-.027.444-.143 1.036-.321 1.926v.002l-.5 2.42c-.16.783-.27 1.303-.399 1.688c-.123.366-.239.523-.364.625c-.125.102-.303.184-.685.23c-.404.05-.935.051-1.734.051h-5.303c-1.417 0-2.4-.002-3.14-.107c-.716-.101-1.093-.285-1.366-.573c-.32-.338-.493-.668-.595-1.263c-.11-.65-.129-1.558-.129-3.047zM7.5 21.75a2.25 2.25 0 1 1 0-4.5a2.25 2.25 0 0 1 0 4.5m-.75-2.25a.75.75 0 1 0 1.5 0a.75.75 0 0 0-1.5 0m9.75 2.25a2.25 2.25 0 1 1 0-4.5a2.25 2.25 0 0 1 0 4.5m-.75-2.25a.75.75 0 1 0 1.5 0a.75.75 0 0 0-1.5 0"
+              clip-rule="evenodd" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="alt-arrow-right-outline" viewBox="0 0 24 24">
+        <path fill="currentColor" fill-rule="evenodd"
+              d="M8.512 4.43a.75.75 0 0 1 1.057.082l6 7a.75.75 0 0 1 0 .976l-6 7a.75.75 0 0 1-1.138-.976L14.012 12L8.431 5.488a.75.75 0 0 1 .08-1.057"
+              clip-rule="evenodd" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="alt-arrow-left-outline" viewBox="0 0 24 24">
+        <path fill="currentColor" fill-rule="evenodd"
+              d="M15.488 4.43a.75.75 0 0 1 .081 1.058L9.988 12l5.581 6.512a.75.75 0 1 1-1.138.976l-6-7a.75.75 0 0 1 0-.976l6-7a.75.75 0 0 1 1.057-.081"
+              clip-rule="evenodd" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="cart-outline" viewBox="0 0 16 16">
+        <path
+            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="quality" viewBox="0 0 16 16">
+        <path
+            d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z" />
+        <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="price-tag" viewBox="0 0 16 16">
+        <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z" />
+        <path
+            d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="shield-plus" viewBox="0 0 16 16">
+        <path
+            d="M5.338 1.59a61.44 61.44 0 0 0-2.837.856.481.481 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 0 0 2.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 0 0 .101.025.615.615 0 0 0 .1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z" />
+        <path
+            d="M8 4.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V9a.5.5 0 0 1-1 0V7.5H6a.5.5 0 0 1 0-1h1.5V5a.5.5 0 0 1 .5-.5z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="star-fill" viewBox="0 0 24 24">
+        <path fill="currentColor"
+              d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182c.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776c.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18c-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506c-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452c-.347 0-.674.15-1.328.452l-.596.274c-2.303 1.06-3.455 1.59-4.22 1.01c-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46c-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882c.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45c.28-.213.46-.536.82-1.182z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="star-empty" viewBox="0 0 16 16">
+        <path
+            d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="star-half" viewBox="0 0 16 16">
+        <path
+            d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="quote" viewBox="0 0 24 24">
+        <path fill="currentColor" d="m15 17l2-4h-4V6h7v7l-2 4h-3Zm-9 0l2-4H4V6h7v7l-2 4H6Z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="facebook" viewBox="0 0 24 24">
+        <path fill="currentColor"
+              d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="youtube" viewBox="0 0 32 32">
+        <path fill="currentColor"
+              d="M29.41 9.26a3.5 3.5 0 0 0-2.47-2.47C24.76 6.2 16 6.2 16 6.2s-8.76 0-10.94.59a3.5 3.5 0 0 0-2.47 2.47A36.13 36.13 0 0 0 2 16a36.13 36.13 0 0 0 .59 6.74a3.5 3.5 0 0 0 2.47 2.47c2.18.59 10.94.59 10.94.59s8.76 0 10.94-.59a3.5 3.5 0 0 0 2.47-2.47A36.13 36.13 0 0 0 30 16a36.13 36.13 0 0 0-.59-6.74ZM13.2 20.2v-8.4l7.27 4.2Z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="twitter" viewBox="0 0 256 256">
+        <path fill="currentColor"
+              d="m245.66 77.66l-29.9 29.9C209.72 177.58 150.67 232 80 232c-14.52 0-26.49-2.3-35.58-6.84c-7.33-3.67-10.33-7.6-11.08-8.72a8 8 0 0 1 3.85-11.93c.26-.1 24.24-9.31 39.47-26.84a110.93 110.93 0 0 1-21.88-24.2c-12.4-18.41-26.28-50.39-22-98.18a8 8 0 0 1 13.65-4.92c.35.35 33.28 33.1 73.54 43.72V88a47.87 47.87 0 0 1 14.36-34.3A46.87 46.87 0 0 1 168.1 40a48.66 48.66 0 0 1 41.47 24H240a8 8 0 0 1 5.66 13.66Z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="instagram" viewBox="0 0 256 256">
+        <path fill="currentColor"
+              d="M128 80a48 48 0 1 0 48 48a48.05 48.05 0 0 0-48-48Zm0 80a32 32 0 1 1 32-32a32 32 0 0 1-32 32Zm48-136H80a56.06 56.06 0 0 0-56 56v96a56.06 56.06 0 0 0 56 56h96a56.06 56.06 0 0 0 56-56V80a56.06 56.06 0 0 0-56-56Zm40 152a40 40 0 0 1-40 40H80a40 40 0 0 1-40-40V80a40 40 0 0 1 40-40h96a40 40 0 0 1 40 40ZM192 76a12 12 0 1 1-12-12a12 12 0 0 1 12 12Z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="linkedin" viewBox="0 0 24 24">
+        <path fill="currentColor"
+              d="M6.94 5a2 2 0 1 1-4-.002a2 2 0 0 1 4 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="nav-icon" viewBox="0 0 16 16">
+        <path
+            d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="close" viewBox="0 0 16 16">
+        <path
+            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+    </symbol>
+    <symbol xmlns="http://www.w3.org/2000/svg" id="navbar-icon" viewBox="0 0 16 16">
+        <path
+            d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z" />
+    </symbol>
+</svg>
 
-        <title>Laravel</title>
+<div id="preloader" class="preloader-container">
+    <div class="book">
+        <div class="inner">
+            <div class="left"></div>
+            <div class="middle"></div>
+            <div class="right"></div>
+        </div>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+<div class="search-popup">
+    <div class="search-popup-container">
 
-        <!-- Styles -->
-        <style>
-            /* ! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Figtree, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.absolute{position:absolute}.relative{position:relative}.-left-20{left:-5rem}.top-0{top:0px}.-bottom-16{bottom:-4rem}.-left-16{left:-4rem}.-mx-3{margin-left:-0.75rem;margin-right:-0.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.aspect-video{aspect-ratio:16 / 9}.size-12{width:3rem;height:3rem}.size-5{width:1.25rem;height:1.25rem}.size-6{width:1.5rem;height:1.5rem}.h-12{height:3rem}.h-40{height:10rem}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-full{width:100%}.w-\[calc\(100\%\+8rem\)\]{width:calc(100% + 8rem)}.w-auto{width:auto}.max-w-\[877px\]{max-width:877px}.max-w-2xl{max-width:42rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.items-stretch{align-items:stretch}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.self-center{align-self:center}.overflow-hidden{overflow:hidden}.rounded-\[10px\]{border-radius:10px}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-md{border-radius:0.375rem}.rounded-sm{border-radius:0.125rem}.bg-\[\#FF2D20\]\/10{background-color:rgb(255 45 32 / 0.1)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-gradient-to-b{background-image:linear-gradient(to bottom, var(--tw-gradient-stops))}.from-transparent{--tw-gradient-from:transparent var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-white{--tw-gradient-to:rgb(255 255 255 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #fff var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-white{--tw-gradient-to:#fff var(--tw-gradient-to-position)}.stroke-\[\#FF2D20\]{stroke:#FF2D20}.object-cover{object-fit:cover}.object-top{object-position:top}.p-6{padding:1.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.pt-3{padding-top:0.75rem}.text-center{text-align:center}.font-sans{font-family:Figtree, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-sm\/relaxed{font-size:0.875rem;line-height:1.625}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-semibold{font-weight:600}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-\[0px_14px_34px_0px_rgba\(0\2c 0\2c 0\2c 0\.08\)\]{--tw-shadow:0px 14px 34px 0px rgba(0,0,0,0.08);--tw-shadow-colored:0px 14px 34px 0px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-transparent{--tw-ring-color:transparent}.ring-white\/\[0\.05\]{--tw-ring-color:rgb(255 255 255 / 0.05)}.drop-shadow-\[0px_4px_34px_rgba\(0\2c 0\2c 0\2c 0\.06\)\]{--tw-drop-shadow:drop-shadow(0px 4px 34px rgba(0,0,0,0.06));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0px_4px_34px_rgba\(0\2c 0\2c 0\2c 0\.25\)\]{--tw-drop-shadow:drop-shadow(0px 4px 34px rgba(0,0,0,0.25));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.selection\:bg-\[\#FF2D20\] *::selection{--tw-bg-opacity:1;background-color:rgb(255 45 32 / var(--tw-bg-opacity))}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.selection\:bg-\[\#FF2D20\]::selection{--tw-bg-opacity:1;background-color:rgb(255 45 32 / var(--tw-bg-opacity))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.hover\:text-black:hover{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity))}.hover\:text-black\/70:hover{color:rgb(0 0 0 / 0.7)}.hover\:ring-black\/20:hover{--tw-ring-color:rgb(0 0 0 / 0.2)}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus-visible\:ring-1:focus-visible{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus-visible\:ring-\[\#FF2D20\]:focus-visible{--tw-ring-opacity:1;--tw-ring-color:rgb(255 45 32 / var(--tw-ring-opacity))}@media (min-width: 640px){.sm\:size-16{width:4rem;height:4rem}.sm\:size-6{width:1.5rem;height:1.5rem}.sm\:pt-5{padding-top:1.25rem}}@media (min-width: 768px){.md\:row-span-3{grid-row:span 3 / span 3}}@media (min-width: 1024px){.lg\:col-start-2{grid-column-start:2}.lg\:h-16{height:4rem}.lg\:max-w-7xl{max-width:80rem}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.lg\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.lg\:flex-col{flex-direction:column}.lg\:items-end{align-items:flex-end}.lg\:justify-center{justify-content:center}.lg\:gap-8{gap:2rem}.lg\:p-10{padding:2.5rem}.lg\:pb-10{padding-bottom:2.5rem}.lg\:pt-0{padding-top:0px}.lg\:text-\[\#FF2D20\]{--tw-text-opacity:1;color:rgb(255 45 32 / var(--tw-text-opacity))}}@media (prefers-color-scheme: dark){.dark\:block{display:block}.dark\:hidden{display:none}.dark\:bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}.dark\:bg-zinc-900{--tw-bg-opacity:1;background-color:rgb(24 24 27 / var(--tw-bg-opacity))}.dark\:via-zinc-900{--tw-gradient-to:rgb(24 24 27 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #18181b var(--tw-gradient-via-position), var(--tw-gradient-to)}.dark\:to-zinc-900{--tw-gradient-to:#18181b var(--tw-gradient-to-position)}.dark\:text-white\/50{color:rgb(255 255 255 / 0.5)}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:text-white\/70{color:rgb(255 255 255 / 0.7)}.dark\:ring-zinc-800{--tw-ring-opacity:1;--tw-ring-color:rgb(39 39 42 / var(--tw-ring-opacity))}.dark\:hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:hover\:text-white\/70:hover{color:rgb(255 255 255 / 0.7)}.dark\:hover\:text-white\/80:hover{color:rgb(255 255 255 / 0.8)}.dark\:hover\:ring-zinc-700:hover{--tw-ring-opacity:1;--tw-ring-color:rgb(63 63 70 / var(--tw-ring-opacity))}.dark\:focus-visible\:ring-\[\#FF2D20\]:focus-visible{--tw-ring-opacity:1;--tw-ring-color:rgb(255 45 32 / var(--tw-ring-opacity))}.dark\:focus-visible\:ring-white:focus-visible{--tw-ring-opacity:1;--tw-ring-color:rgb(255 255 255 / var(--tw-ring-opacity))}}
-        </style>
-    </head>
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-            <img id="background" class="absolute -left-20 top-0 max-w-[877px]" src="https://laravel.com/assets/img/welcome/background.svg" />
-            <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
-                <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                    <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                        <div class="flex lg:justify-center lg:col-start-2">
-                            <svg class="h-12 w-auto text-white lg:h-16 lg:text-[#FF2D20]" viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z" fill="currentColor"/></svg>
-                        </div>
-                        @if (Route::has('login'))
-                            <nav class="-mx-3 flex flex-1 justify-end">
-                                @auth
-                                    <a
-                                        href="{{ url('/dashboard') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Dashboard
-                                    </a>
-                                @else
-                                    <a
-                                        href="{{ route('login') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Log in
-                                    </a>
+        <form role="search" method="get" class="search-form" action="">
+            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" value=""
+                   name="s" />
+            <button type="submit" class="search-submit"><svg class="search">
+                    <use xlink:href="#search"></use>
+                </svg></button>
+        </form>
 
-                                    @if (Route::has('register'))
-                                        <a
-                                            href="{{ route('register') }}"
-                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                        >
-                                            Register
-                                        </a>
-                                    @endif
-                                @endauth
-                            </nav>
-                        @endif
-                    </header>
+        <h5 class="cat-list-title">Browse Categories</h5>
 
-                    <main class="mt-6">
-                        <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-                            <a
-                                href="https://laravel.com/docs"
-                                id="docs-card"
-                                class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                            >
-                                <div id="screenshot-container" class="relative flex w-full flex-1 items-stretch">
-                                    <img
-                                        src="https://laravel.com/assets/img/welcome/docs-light.svg"
-                                        alt="Laravel documentation screenshot"
-                                        class="aspect-video h-full w-full flex-1 rounded-[10px] object-top object-cover drop-shadow-[0px_4px_34px_rgba(0,0,0,0.06)] dark:hidden"
-                                        onerror="
-                                            document.getElementById('screenshot-container').classList.add('!hidden');
-                                            document.getElementById('docs-card').classList.add('!row-span-1');
-                                            document.getElementById('docs-card-content').classList.add('!flex-row');
-                                            document.getElementById('background').classList.add('!hidden');
-                                        "
-                                    />
-                                    <img
-                                        src="https://laravel.com/assets/img/welcome/docs-dark.svg"
-                                        alt="Laravel documentation screenshot"
-                                        class="hidden aspect-video h-full w-full flex-1 rounded-[10px] object-top object-cover drop-shadow-[0px_4px_34px_rgba(0,0,0,0.25)] dark:block"
-                                    />
-                                    <div
-                                        class="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-zinc-900 dark:to-zinc-900"
-                                    ></div>
-                                </div>
+        <ul class="cat-list">
+            <li class="cat-list-item">
+                <a href="#" title="Romance">Romance</a>
+            </li>
+            <li class="cat-list-item">
+                <a href="#" title="Thriller">Thriller</a>
+            </li>
+            <li class="cat-list-item">
+                <a href="#" title="Sci-fi">Sci-fi</a>
+            </li>
+            <li class="cat-list-item">
+                <a href="#" title="Cooking">Cooking</a>
+            </li>
+            <li class="cat-list-item">
+                <a href="#" title="Health">Health</a>
+            </li>
+            <li class="cat-list-item">
+                <a href="#" title="Lifestyle">Lifestyle</a>
+            </li>
+            <li class="cat-list-item">
+                <a href="#" title="Fiction">Fiction</a>
+            </li>
+        </ul>
 
-                                <div class="relative flex items-center gap-6 lg:items-end">
-                                    <div id="docs-card-content" class="flex items-start gap-6 lg:flex-col">
-                                        <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                            <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path fill="#FF2D20" d="M23 4a1 1 0 0 0-1.447-.894L12.224 7.77a.5.5 0 0 1-.448 0L2.447 3.106A1 1 0 0 0 1 4v13.382a1.99 1.99 0 0 0 1.105 1.79l9.448 4.728c.14.065.293.1.447.1.154-.005.306-.04.447-.105l9.453-4.724a1.99 1.99 0 0 0 1.1-1.789V4ZM3 6.023a.25.25 0 0 1 .362-.223l7.5 3.75a.251.251 0 0 1 .138.223v11.2a.25.25 0 0 1-.362.224l-7.5-3.75a.25.25 0 0 1-.138-.22V6.023Zm18 11.2a.25.25 0 0 1-.138.224l-7.5 3.75a.249.249 0 0 1-.329-.099.249.249 0 0 1-.033-.12V9.772a.251.251 0 0 1 .138-.224l7.5-3.75a.25.25 0 0 1 .362.224v11.2Z"/><path fill="#FF2D20" d="m3.55 1.893 8 4.048a1.008 1.008 0 0 0 .9 0l8-4.048a1 1 0 0 0-.9-1.785l-7.322 3.706a.506.506 0 0 1-.452 0L4.454.108a1 1 0 0 0-.9 1.785H3.55Z"/></svg>
-                                        </div>
+    </div>
+</div>
 
-                                        <div class="pt-3 sm:pt-5 lg:pt-0">
-                                            <h2 class="text-xl font-semibold text-black dark:text-white">Documentation</h2>
+<header id="header" class="site-header">
 
-                                            <p class="mt-4 text-sm/relaxed">
-                                                Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <svg class="size-6 shrink-0 stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                                </div>
-                            </a>
-
-                            <a
-                                href="https://laracasts.com"
-                                class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                            >
-                                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                    <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="#FF2D20"><path d="M24 8.25a.5.5 0 0 0-.5-.5H.5a.5.5 0 0 0-.5.5v12a2.5 2.5 0 0 0 2.5 2.5h19a2.5 2.5 0 0 0 2.5-2.5v-12Zm-7.765 5.868a1.221 1.221 0 0 1 0 2.264l-6.626 2.776A1.153 1.153 0 0 1 8 18.123v-5.746a1.151 1.151 0 0 1 1.609-1.035l6.626 2.776ZM19.564 1.677a.25.25 0 0 0-.177-.427H15.6a.106.106 0 0 0-.072.03l-4.54 4.543a.25.25 0 0 0 .177.427h3.783c.027 0 .054-.01.073-.03l4.543-4.543ZM22.071 1.318a.047.047 0 0 0-.045.013l-4.492 4.492a.249.249 0 0 0 .038.385.25.25 0 0 0 .14.042h5.784a.5.5 0 0 0 .5-.5v-2a2.5 2.5 0 0 0-1.925-2.432ZM13.014 1.677a.25.25 0 0 0-.178-.427H9.101a.106.106 0 0 0-.073.03l-4.54 4.543a.25.25 0 0 0 .177.427H8.4a.106.106 0 0 0 .073-.03l4.54-4.543ZM6.513 1.677a.25.25 0 0 0-.177-.427H2.5A2.5 2.5 0 0 0 0 3.75v2a.5.5 0 0 0 .5.5h1.4a.106.106 0 0 0 .073-.03l4.54-4.543Z"/></g></svg>
-                                </div>
-
-                                <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Laracasts</h2>
-
-                                    <p class="mt-4 text-sm/relaxed">
-                                        Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                    </p>
-                                </div>
-
-                                <svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                            </a>
-
-                            <a
-                                href="https://laravel-news.com"
-                                class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                            >
-                                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                    <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g fill="#FF2D20"><path d="M8.75 4.5H5.5c-.69 0-1.25.56-1.25 1.25v4.75c0 .69.56 1.25 1.25 1.25h3.25c.69 0 1.25-.56 1.25-1.25V5.75c0-.69-.56-1.25-1.25-1.25Z"/><path d="M24 10a3 3 0 0 0-3-3h-2V2.5a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2V20a3.5 3.5 0 0 0 3.5 3.5h17A3.5 3.5 0 0 0 24 20V10ZM3.5 21.5A1.5 1.5 0 0 1 2 20V3a.5.5 0 0 1 .5-.5h14a.5.5 0 0 1 .5.5v17c0 .295.037.588.11.874a.5.5 0 0 1-.484.625L3.5 21.5ZM22 20a1.5 1.5 0 1 1-3 0V9.5a.5.5 0 0 1 .5-.5H21a1 1 0 0 1 1 1v10Z"/><path d="M12.751 6.047h2a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-2A.75.75 0 0 1 12 7.3v-.5a.75.75 0 0 1 .751-.753ZM12.751 10.047h2a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-2A.75.75 0 0 1 12 11.3v-.5a.75.75 0 0 1 .751-.753ZM4.751 14.047h10a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-10A.75.75 0 0 1 4 15.3v-.5a.75.75 0 0 1 .751-.753ZM4.75 18.047h7.5a.75.75 0 0 1 .75.75v.5a.75.75 0 0 1-.75.75h-7.5A.75.75 0 0 1 4 19.3v-.5a.75.75 0 0 1 .75-.753Z"/></g></svg>
-                                </div>
-
-                                <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Laravel News</h2>
-
-                                    <p class="mt-4 text-sm/relaxed">
-                                        Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                    </p>
-                                </div>
-
-                                <svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                            </a>
-
-                            <div class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-                                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                    <svg class="size-5 sm:size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <g fill="#FF2D20">
-                                            <path
-                                                d="M16.597 12.635a.247.247 0 0 0-.08-.237 2.234 2.234 0 0 1-.769-1.68c.001-.195.03-.39.084-.578a.25.25 0 0 0-.09-.267 8.8 8.8 0 0 0-4.826-1.66.25.25 0 0 0-.268.181 2.5 2.5 0 0 1-2.4 1.824.045.045 0 0 0-.045.037 12.255 12.255 0 0 0-.093 3.86.251.251 0 0 0 .208.214c2.22.366 4.367 1.08 6.362 2.118a.252.252 0 0 0 .32-.079 10.09 10.09 0 0 0 1.597-3.733ZM13.616 17.968a.25.25 0 0 0-.063-.407A19.697 19.697 0 0 0 8.91 15.98a.25.25 0 0 0-.287.325c.151.455.334.898.548 1.328.437.827.981 1.594 1.619 2.28a.249.249 0 0 0 .32.044 29.13 29.13 0 0 0 2.506-1.99ZM6.303 14.105a.25.25 0 0 0 .265-.274 13.048 13.048 0 0 1 .205-4.045.062.062 0 0 0-.022-.07 2.5 2.5 0 0 1-.777-.982.25.25 0 0 0-.271-.149 11 11 0 0 0-5.6 2.815.255.255 0 0 0-.075.163c-.008.135-.02.27-.02.406.002.8.084 1.598.246 2.381a.25.25 0 0 0 .303.193 19.924 19.924 0 0 1 5.746-.438ZM9.228 20.914a.25.25 0 0 0 .1-.393 11.53 11.53 0 0 1-1.5-2.22 12.238 12.238 0 0 1-.91-2.465.248.248 0 0 0-.22-.187 18.876 18.876 0 0 0-5.69.33.249.249 0 0 0-.179.336c.838 2.142 2.272 4 4.132 5.353a.254.254 0 0 0 .15.048c1.41-.01 2.807-.282 4.117-.802ZM18.93 12.957l-.005-.008a.25.25 0 0 0-.268-.082 2.21 2.21 0 0 1-.41.081.25.25 0 0 0-.217.2c-.582 2.66-2.127 5.35-5.75 7.843a.248.248 0 0 0-.09.299.25.25 0 0 0 .065.091 28.703 28.703 0 0 0 2.662 2.12.246.246 0 0 0 .209.037c2.579-.701 4.85-2.242 6.456-4.378a.25.25 0 0 0 .048-.189 13.51 13.51 0 0 0-2.7-6.014ZM5.702 7.058a.254.254 0 0 0 .2-.165A2.488 2.488 0 0 1 7.98 5.245a.093.093 0 0 0 .078-.062 19.734 19.734 0 0 1 3.055-4.74.25.25 0 0 0-.21-.41 12.009 12.009 0 0 0-10.4 8.558.25.25 0 0 0 .373.281 12.912 12.912 0 0 1 4.826-1.814ZM10.773 22.052a.25.25 0 0 0-.28-.046c-.758.356-1.55.635-2.365.833a.25.25 0 0 0-.022.48c1.252.43 2.568.65 3.893.65.1 0 .2 0 .3-.008a.25.25 0 0 0 .147-.444c-.526-.424-1.1-.917-1.673-1.465ZM18.744 8.436a.249.249 0 0 0 .15.228 2.246 2.246 0 0 1 1.352 2.054c0 .337-.08.67-.23.972a.25.25 0 0 0 .042.28l.007.009a15.016 15.016 0 0 1 2.52 4.6.25.25 0 0 0 .37.132.25.25 0 0 0 .096-.114c.623-1.464.944-3.039.945-4.63a12.005 12.005 0 0 0-5.78-10.258.25.25 0 0 0-.373.274c.547 2.109.85 4.274.901 6.453ZM9.61 5.38a.25.25 0 0 0 .08.31c.34.24.616.561.8.935a.25.25 0 0 0 .3.127.631.631 0 0 1 .206-.034c2.054.078 4.036.772 5.69 1.991a.251.251 0 0 0 .267.024c.046-.024.093-.047.141-.067a.25.25 0 0 0 .151-.23A29.98 29.98 0 0 0 15.957.764a.25.25 0 0 0-.16-.164 11.924 11.924 0 0 0-2.21-.518.252.252 0 0 0-.215.076A22.456 22.456 0 0 0 9.61 5.38Z"
-                                            />
-                                        </g>
-                                    </svg>
-                                </div>
-
-                                <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Vibrant Ecosystem</h2>
-
-                                    <p class="mt-4 text-sm/relaxed">
-                                        Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white dark:focus-visible:ring-[#FF2D20]">Forge</a>, <a href="https://vapor.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Vapor</a>, <a href="https://nova.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Nova</a>, <a href="https://envoyer.io" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Envoyer</a>, and <a href="https://herd.laravel.com" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Herd</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Echo</a>, <a href="https://laravel.com/docs/horizon" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white">Telescope</a>, and more.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-
-                    <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </footer>
+    <div class="top-info border-bottom d-none d-md-block ">
+        <div class="container-fluid">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <p class="fs-6 my-2 text-center">Need any help? Call us <a href="#">112233344455</a></p>
+                </div>
+                <div class="col-md-4 border-start border-end">
+                    <p class="fs-6 my-2 text-center">Summer sale discount off 60% off! <a class="text-decoration-underline"
+                                                                                          href="#">Shop Now</a></p>
+                </div>
+                <div class="col-md-4">
+                    <p class="fs-6 my-2 text-center">2-3 business days delivery & free returns</p>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+
+    <nav id="header-nav" class="navbar navbar-expand-lg py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="images/main-logo.png" class="logo">
+            </a>
+            <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <svg class="navbar-icon">
+                    <use xlink:href="#navbar-icon"></use>
+                </svg>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
+                <div class="offcanvas-header px-4 pb-0">
+                    <a class="navbar-brand" href="#">
+                        <img src="images/main-logo.png" class="logo">
+                    </a>
+                    <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"
+                            data-bs-target="#bdNavbar"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul id="navbar"
+                        class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link me-4 active" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-4" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-4" href="#">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-4" href="#">Blogs</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                               aria-expanded="false">Pages</a>
+                            <ul class="dropdown-menu animate slide border">
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">About</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">Shop</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">Single Product</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">Cart</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">Checkout</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">Single Post</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item fw-light">Contact</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-4" href="#">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="user-items d-flex">
+                        <ul class="d-flex justify-content-end list-unstyled mb-0">
+                            <li class="search-item pe-3">
+                                <a href="#" class="search-button">
+                                    <svg class="search">
+                                        <use xlink:href="#search"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="pe-3">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <svg class="user">
+                                        <use xlink:href="#user"></use>
+                                    </svg>
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header border-bottom-0">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="tabs-listing">
+                                                    <nav>
+                                                        <div class="nav nav-tabs d-flex justify-content-center" id="nav-tab" role="tablist">
+                                                            <button class="nav-link text-capitalize active" id="nav-sign-in-tab" data-bs-toggle="tab"
+                                                                    data-bs-target="#nav-sign-in" type="button" role="tab" aria-controls="nav-sign-in"
+                                                                    aria-selected="true">Sign In</button>
+                                                            <button class="nav-link text-capitalize" id="nav-register-tab" data-bs-toggle="tab"
+                                                                    data-bs-target="#nav-register" type="button" role="tab" aria-controls="nav-register"
+                                                                    aria-selected="false">Register</button>
+                                                        </div>
+                                                    </nav>
+                                                    <div class="tab-content" id="nav-tabContent">
+                                                        <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel"
+                                                             aria-labelledby="nav-sign-in-tab">
+                                                            <div class="form-group py-3">
+                                                                <label class="mb-2" for="sign-in">Username or email address *</label>
+                                                                <input type="text" minlength="2" name="username" placeholder="Your Username"
+                                                                       class="form-control w-100 rounded-3 p-3" required>
+                                                            </div>
+                                                            <div class="form-group pb-3">
+                                                                <label class="mb-2" for="sign-in">Password *</label>
+                                                                <input type="password" minlength="2" name="password" placeholder="Your Password"
+                                                                       class="form-control w-100 rounded-3 p-3" required>
+                                                            </div>
+                                                            <label class="py-3">
+                                                                <input type="checkbox" required="" class="d-inline">
+                                                                <span class="label-body">Remember me</span>
+                                                                <span class="label-body"><a href="#" class="fw-bold">Forgot Password</a></span>
+                                                            </label>
+                                                            <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Login</button>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="nav-register" role="tabpanel"
+                                                             aria-labelledby="nav-register-tab">
+                                                            <div class="form-group py-3">
+                                                                <label class="mb-2" for="register">Your email address *</label>
+                                                                <input type="text" minlength="2" name="username" placeholder="Your Email Address"
+                                                                       class="form-control w-100 rounded-3 p-3" required>
+                                                            </div>
+                                                            <div class="form-group pb-3">
+                                                                <label class="mb-2" for="sign-in">Password *</label>
+                                                                <input type="password" minlength="2" name="password" placeholder="Your Password"
+                                                                       class="form-control w-100 rounded-3 p-3" required>
+                                                            </div>
+                                                            <label class="py-3">
+                                                                <input type="checkbox" required="" class="d-inline">
+                                                                <span class="label-body">I agree to the <a href="#" class="fw-bold">Privacy
+                                        Policy</a></span>
+                                                            </label>
+                                                            <button type="submit" name="submit" class="btn btn-dark w-100 my-3">Register</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="wishlist-dropdown dropdown pe-3">
+                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                                    <svg class="wishlist">
+                                        <use xlink:href="#heart"></use>
+                                    </svg>
+                                </a>
+                                <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-primary">Your wishlist</span>
+                                        <span class="badge bg-primary rounded-pill">2</span>
+                                    </h4>
+                                    <ul class="list-group mb-3">
+                                        <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h5>
+                                                    <a href="#">The Emerald Crown</a>
+                                                </h5>
+                                                <small>Special discounted price.</small>
+                                                <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
+                                            </div>
+                                            <span class="text-primary">$2000</span>
+                                        </li>
+                                        <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h5>
+                                                    <a href="#">The Last Enchantment</a>
+                                                </h5>
+                                                <small>Perfect for enlightened people.</small>
+                                                <a href="#" class="d-block fw-medium text-capitalize mt-2">Add to cart</a>
+                                            </div>
+                                            <span class="text-primary">$400</span>
+                                        </li>
+                                        <li class="list-group-item bg-transparent d-flex justify-content-between">
+                                            <span class="text-capitalize"><b>Total (USD)</b></span>
+                                            <strong>$1470</strong>
+                                        </li>
+                                    </ul>
+                                    <div class="d-flex flex-wrap justify-content-center">
+                                        <a href="#" class="w-100 btn btn-dark mb-1" type="submit">Add all to cart</a>
+                                        <a href="#" class="w-100 btn btn-primary" type="submit">View cart</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="cart-dropdown dropdown">
+                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button"
+                                   aria-expanded="false">
+                                    <svg class="cart">
+                                        <use xlink:href="#cart"></use>
+                                    </svg><span class="fs-6 fw-light">(02)</span>
+                                </a>
+                                <div class="dropdown-menu animate slide dropdown-menu-start dropdown-menu-lg-end p-3">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-primary">Your cart</span>
+                                        <span class="badge bg-primary rounded-pill">2</span>
+                                    </h4>
+                                    <ul class="list-group mb-3">
+                                        <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h5>
+                                                    <a href="#">Secrets of the Alchemist</a>
+                                                </h5>
+                                                <small>High quality in good price.</small>
+                                            </div>
+                                            <span class="text-primary">$870</span>
+                                        </li>
+                                        <li class="list-group-item bg-transparent d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h5>
+                                                    <a href="#">Quest for the Lost City</a>
+                                                </h5>
+                                                <small>Professional Quest for the Lost City.</small>
+                                            </div>
+                                            <span class="text-primary">$600</span>
+                                        </li>
+                                        <li class="list-group-item bg-transparent d-flex justify-content-between">
+                                            <span class="text-capitalize"><b>Total (USD)</b></span>
+                                            <strong>$1470</strong>
+                                        </li>
+                                    </ul>
+                                    <div class="d-flex flex-wrap justify-content-center">
+                                        <a href="#" class="w-100 btn btn-dark mb-1" type="submit">View Cart</a>
+                                        <a href="#" class="w-100 btn btn-primary" type="submit">Go to checkout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+<section id="billboard" class="position-relative d-flex align-items-center py-5 bg-light-gray"
+         style="background-image: url(images/banner-image-bg.jpg); background-size: cover; background-repeat: no-repeat; background-position: center; height: 800px;">
+    <div class="position-absolute end-0 pe-0 pe-xxl-5 me-0 me-xxl-5 swiper-next main-slider-button-next">
+        <svg class="chevron-forward-circle d-flex justify-content-center align-items-center p-2" width="80" height="80">
+            <use xlink:href="#alt-arrow-right-outline"></use>
+        </svg>
+    </div>
+    <div class="position-absolute start-0 ps-0 ps-xxl-5 ms-0 ms-xxl-5 swiper-prev main-slider-button-prev">
+        <svg class="chevron-back-circle d-flex justify-content-center align-items-center p-2" width="80" height="80">
+            <use xlink:href="#alt-arrow-left-outline"></use>
+        </svg>
+    </div>
+    <div class="swiper main-swiper">
+        <div class="swiper-wrapper d-flex align-items-center">
+            <div class="swiper-slide">
+                <div class="container">
+                    <div class="row d-flex flex-column-reverse flex-md-row align-items-center">
+                        <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
+                            <div class="banner-content">
+                                <h2>The Fine Print Book Collection</h2>
+                                <p>Best Offer Save 30%. Grab it now!</p>
+                                <a href="#" class="btn mt-3">Shop Collection</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <div class="image-holder">
+                                <img src="images/banner-image2.png" class="img-fluid" alt="banner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="container">
+                    <div class="row d-flex flex-column-reverse flex-md-row align-items-center">
+                        <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
+                            <div class="banner-content">
+                                <h2>How Innovation works</h2>
+                                <p>Discount available. Grab it now!</p>
+                                <a href="#" class="btn mt-3">Shop Product</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <div class="image-holder">
+                                <img src="images/banner-image1.png" class="img-fluid" alt="banner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="container">
+                    <div class="row d-flex flex-column-reverse flex-md-row align-items-center">
+                        <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
+                            <div class="banner-content">
+                                <h2>Your Heart is the Sea</h2>
+                                <p>Limited stocks available. Grab it now!</p>
+                                <a href="#" class="btn mt-3">Shop Collection</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <div class="image-holder">
+                                <img src="images/banner-image.png" class="img-fluid" alt="banner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="company-services" class="padding-large pb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 pb-3 pb-lg-0">
+                <div class="icon-box d-flex">
+                    <div class="icon-box-icon pe-3 pb-3">
+                        <svg class="cart-outline">
+                            <use xlink:href="#cart-outline" />
+                        </svg>
+                    </div>
+                    <div class="icon-box-content">
+                        <h4 class="card-title mb-1 text-capitalize text-dark">Free delivery</h4>
+                        <p>Consectetur adipi elit lorem ipsum dolor sit amet.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 pb-3 pb-lg-0">
+                <div class="icon-box d-flex">
+                    <div class="icon-box-icon pe-3 pb-3">
+                        <svg class="quality">
+                            <use xlink:href="#quality" />
+                        </svg>
+                    </div>
+                    <div class="icon-box-content">
+                        <h4 class="card-title mb-1 text-capitalize text-dark">Quality guarantee</h4>
+                        <p>Dolor sit amet orem ipsu mcons ectetur adipi elit.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 pb-3 pb-lg-0">
+                <div class="icon-box d-flex">
+                    <div class="icon-box-icon pe-3 pb-3">
+                        <svg class="price-tag">
+                            <use xlink:href="#price-tag" />
+                        </svg>
+                    </div>
+                    <div class="icon-box-content">
+                        <h4 class="card-title mb-1 text-capitalize text-dark">Daily offers</h4>
+                        <p>Amet consectetur adipi elit loreme ipsum dolor sit.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 pb-3 pb-lg-0">
+                <div class="icon-box d-flex">
+                    <div class="icon-box-icon pe-3 pb-3">
+                        <svg class="shield-plus">
+                            <use xlink:href="#shield-plus" />
+                        </svg>
+                    </div>
+                    <div class="icon-box-content">
+                        <h4 class="card-title mb-1 text-capitalize text-dark">100% secure payment</h4>
+                        <p>Rem Lopsum dolor sit amet, consectetur adipi elit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="best-selling-items" class="position-relative padding-large ">
+    <div class="container">
+        <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+            <h3 class="d-flex align-items-center">Best selling items</h3>
+            <a href="#" class="btn">View All</a>
+        </div>
+        <div class="position-absolute top-50 end-0 pe-0 pe-xxl-5 me-0 me-xxl-5 swiper-next product-slider-button-next">
+            <svg class="chevron-forward-circle d-flex justify-content-center align-items-center p-2" width="80" height="80">
+                <use xlink:href="#alt-arrow-right-outline"></use>
+            </svg>
+        </div>
+        <div class="position-absolute top-50 start-0 ps-0 ps-xxl-5 ms-0 ms-xxl-5 swiper-prev product-slider-button-prev">
+            <svg class="chevron-back-circle d-flex justify-content-center align-items-center p-2" width="80" height="80">
+                <use xlink:href="#alt-arrow-left-outline"></use>
+            </svg>
+        </div>
+        <div class="swiper product-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="card position-relative p-4 border rounded-3">
+                        <div class="position-absolute">
+                            <p class="bg-primary py-1 px-3 fs-6 text-white rounded-2">10% off</p>
+                        </div>
+                        <img src="images/product-item1.png" class="img-fluid shadow-sm" alt="product item">
+                        <h6 class="mt-4 mb-0 fw-bold"><a href="#">House of Sky Breath</a></h6>
+                        <div class="review-content d-flex">
+                            <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+
+                            <div class="rating text-warning d-flex align-items-center">
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                            </div>
+                        </div>
+                        <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                        <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
+                            <button type="button" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Tooltip on top">
+                                <svg class="cart">
+                                    <use xlink:href="#cart"></use>
+                                </svg>
+                            </button>
+                            <a href="#" class="btn btn-dark">
+                    <span>
+                      <svg class="wishlist">
+                        <use xlink:href="#heart"></use>
+                      </svg>
+                    </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative p-4 border rounded-3">
+                        <img src="images/product-item2.png" class="img-fluid shadow-sm" alt="product item">
+                        <h6 class="mt-4 mb-0 fw-bold"><a href="#">Heartland Stars</a></h6>
+                        <div class="review-content d-flex">
+                            <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+
+                            <div class="rating text-warning d-flex align-items-center">
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                        <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
+                            <button type="button" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Tooltip on top">
+                                <svg class="cart">
+                                    <use xlink:href="#cart"></use>
+                                </svg>
+                            </button>
+                            <a href="#" class="btn btn-dark">
+                    <span>
+                      <svg class="wishlist">
+                        <use xlink:href="#heart"></use>
+                      </svg>
+                    </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative p-4 border rounded-3">
+                        <img src="images/product-item3.png" class="img-fluid shadow-sm" alt="product item">
+                        <h6 class="mt-4 mb-0 fw-bold"><a href="#">Heavenly Bodies</a></h6>
+                        <div class="review-content d-flex">
+                            <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+
+                            <div class="rating text-warning d-flex align-items-center">
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                        <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
+                            <button type="button" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Tooltip on top">
+                                <svg class="cart">
+                                    <use xlink:href="#cart"></use>
+                                </svg>
+                            </button>
+                            <a href="#" class="btn btn-dark">
+                    <span>
+                      <svg class="wishlist">
+                        <use xlink:href="#heart"></use>
+                      </svg>
+                    </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative p-4 border rounded-3">
+                        <div class="position-absolute">
+                            <p class="bg-primary py-1 px-3 fs-6 text-white rounded-2">10% off</p>
+                        </div>
+                        <img src="images/product-item4.png" class="img-fluid shadow-sm" alt="product item">
+                        <h6 class="mt-4 mb-0 fw-bold"><a href="#">His Saving Grace</a></h6>
+                        <div class="review-content d-flex">
+                            <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+
+                            <div class="rating text-warning d-flex align-items-center">
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                        <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
+                            <button type="button" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Tooltip on top">
+                                <svg class="cart">
+                                    <use xlink:href="#cart"></use>
+                                </svg>
+                            </button>
+                            <a href="#" class="btn btn-dark">
+                    <span>
+                      <svg class="wishlist">
+                        <use xlink:href="#heart"></use>
+                      </svg>
+                    </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative p-4 border rounded-3">
+                        <img src="images/product-item5.png" class="img-fluid shadow-sm" alt="product item">
+                        <h6 class="mt-4 mb-0 fw-bold"><a href="#">My Dearest Darkest</a></h6>
+                        <div class="review-content d-flex">
+                            <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+
+                            <div class="rating text-warning d-flex align-items-center d-flex align-items-center">
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                        <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
+                            <button type="button" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Tooltip on top">
+                                <svg class="cart">
+                                    <use xlink:href="#cart"></use>
+                                </svg>
+                            </button>
+                            <a href="#" class="btn btn-dark">
+                    <span>
+                      <svg class="wishlist">
+                        <use xlink:href="#heart"></use>
+                      </svg>
+                    </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative p-4 border rounded-3">
+                        <img src="images/product-item6.png" class="img-fluid shadow-sm" alt="product item">
+                        <h6 class="mt-4 mb-0 fw-bold"><a href="#">The Story of Success</a></h6>
+                        <div class="review-content d-flex">
+                            <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+
+                            <div class="rating text-warning d-flex align-items-center">
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                                <svg class="star star-fill">
+                                    <use xlink:href="#star-fill"></use>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                        <div class="card-concern position-absolute start-0 end-0 d-flex gap-2">
+                            <button type="button" href="#" class="btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Tooltip on top">
+                                <svg class="cart">
+                                    <use xlink:href="#cart"></use>
+                                </svg>
+                            </button>
+                            <a href="#" class="btn btn-dark">
+                    <span>
+                      <svg class="wishlist">
+                        <use xlink:href="#heart"></use>
+                      </svg>
+                    </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="limited-offer" class="padding-large"
+         style="background-image: url(images/banner-image-bg-1.jpg); background-size: cover; background-repeat: no-repeat; background-position: center; height: 800px;">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-6 text-center">
+                <div class="image-holder">
+                    <img src="images/banner-image3.png" class="img-fluid" alt="banner">
+                </div>
+            </div>
+            <div class="col-md-5 offset-md-1 mt-5 mt-md-0 text-center text-md-start">
+                <h2>30% Discount on all items. Hurry Up !!!</h2>
+                <div id="countdown-clock" class="text-dark d-flex align-items-center my-3">
+                    <div class="time d-grid pe-3">
+                        <span class="days fs-1 fw-normal"></span>
+                        <small>Days</small>
+                    </div>
+                    <span class="fs-1 text-primary">:</span>
+                    <div class="time d-grid pe-3 ps-3">
+                        <span class="hours fs-1 fw-normal"></span>
+                        <small>Hrs</small>
+                    </div>
+                    <span class="fs-1 text-primary">:</span>
+                    <div class="time d-grid pe-3 ps-3">
+                        <span class="minutes fs-1 fw-normal"></span>
+                        <small>Min</small>
+                    </div>
+                    <span class="fs-1 text-primary">:</span>
+                    <div class="time d-grid ps-3">
+                        <span class="seconds fs-1 fw-normal"></span>
+                        <small>Sec</small>
+                    </div>
+                </div>
+                <a href="#" class="btn mt-3">Shop Collection</a>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section id="items-listing" class="padding-large">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-4 mb-lg-0 col-lg-3">
+                <div class="featured border rounded-3 p-4">
+                    <div class="section-title overflow-hidden mb-5 mt-2">
+                        <h3 class="d-flex flex-column mb-0">Featured</h3>
+                    </div>
+                    <div class="items-lists">
+                        <div class="item d-flex">
+                            <img src="images/product-item2.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">Echoes of the Ancients</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                        <hr class="gray-400">
+                        <div class="item d-flex">
+                            <img src="images/product-item1.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">The Midnight Garden</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="item d-flex">
+                            <img src="images/product-item3.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">Shadow of the Serpent</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4 mb-lg-0 col-lg-3">
+                <div class="latest-items border rounded-3 p-4">
+                    <div class="section-title overflow-hidden mb-5 mt-2">
+                        <h3 class="d-flex flex-column mb-0">Latest items</h3>
+                    </div>
+                    <div class="items-lists">
+                        <div class="item d-flex">
+                            <img src="images/product-item4.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">Whispering Winds</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                        <hr class="gray-400">
+                        <div class="item d-flex">
+                            <img src="images/product-item5.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">The Forgotten Realm</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="item d-flex">
+                            <img src="images/product-item6.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">Moonlit Secrets</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4 mb-lg-0 col-lg-3">
+                <div class="best-reviewed border rounded-3 p-4">
+                    <div class="section-title overflow-hidden mb-5 mt-2">
+                        <h3 class="d-flex flex-column mb-0">Best reviewed</h3>
+                    </div>
+                    <div class="items-lists">
+                        <div class="item d-flex">
+                            <img src="images/product-item7.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">The Crystal Key</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                        <hr class="gray-400">
+                        <div class="item d-flex">
+                            <img src="images/product-item8.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">Starlight Sonata</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="item d-flex">
+                            <img src="images/product-item9.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">Tales of the Enchanted Forest</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5">$870</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4 mb-lg-0 col-lg-3">
+                <div class="on-sale border rounded-3 p-4">
+                    <div class="section-title overflow-hidden mb-5 mt-2">
+                        <h3 class="d-flex flex-column mb-0">On sale</h3>
+                    </div>
+                    <div class="items-lists">
+                        <div class="item d-flex">
+                            <img src="images/product-item10.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">The Phoenix Chronicles</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5"><s class="text-black-50">$1666</s>
+                      $999</span>
+                            </div>
+                        </div>
+                        <hr class="gray-400">
+                        <div class="item d-flex">
+                            <img src="images/product-item11.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">Dreams of Avalon</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5"><s class="text-black-50">$500</s>
+                      $410</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="item d-flex">
+                            <img src="images/product-item12.png" class="img-fluid shadow-sm" alt="product item">
+                            <div class="item-content ms-3">
+                                <h6 class="mb-0 fw-bold"><a href="#">Legends of the Dragon Isles</a></h6>
+                                <div class="review-content d-flex">
+                                    <p class="my-2 me-2 fs-6 text-black-50">Lauren Asher</p>
+                                    <div class="rating text-warning d-flex align-items-center">
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                        <svg class="star star-fill">
+                                            <use xlink:href="#star-fill"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="price text-primary fw-bold mb-2 fs-5"><s class="text-black-50">$600</s>
+                      $500</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="categories" class="padding-large pt-0">
+    <div class="container">
+        <div class="section-title overflow-hidden mb-4">
+            <h3 class="d-flex align-items-center">Categories</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 border-0 rounded-3 position-relative">
+                    <a href="#">
+                        <img src="images/category1.jpg" class="img-fluid rounded-3" alt="cart item">
+                        <h6 class=" position-absolute bottom-0 bg-primary m-4 py-2 px-3 rounded-3"><a href="#"
+                                                                                                      class="text-white">Romance</a></h6>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center mb-4 border-0 rounded-3">
+                    <a href="#">
+                        <img src="images/category2.jpg" class="img-fluid rounded-3" alt="cart item">
+                        <h6 class=" position-absolute bottom-0 bg-primary m-4 py-2 px-3 rounded-3"><a href="#"
+                                                                                                      class="text-white">Lifestyle</a></h6>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center mb-4 border-0 rounded-3">
+                    <a href="#">
+                        <img src="images/category3.jpg" class="img-fluid rounded-3" alt="cart item">
+                        <h6 class=" position-absolute bottom-0 bg-primary m-4 py-2 px-3 rounded-3"><a href="#"
+                                                                                                      class="text-white">Recipe</a></h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="customers-reviews" class="position-relative padding-large"
+         style="background-image: url(images/banner-image-bg.jpg); background-size: cover; background-repeat: no-repeat; background-position: center; height: 600px;">
+    <div class="container offset-md-3 col-md-6 ">
+        <div class="position-absolute top-50 end-0 pe-0 pe-xxl-5 me-0 me-xxl-5 swiper-next testimonial-button-next">
+            <svg class="chevron-forward-circle d-flex justify-content-center align-items-center p-2" width="80" height="80">
+                <use xlink:href="#alt-arrow-right-outline"></use>
+            </svg>
+        </div>
+        <div class="position-absolute top-50 start-0 ps-0 ps-xxl-5 ms-0 ms-xxl-5 swiper-prev testimonial-button-prev">
+            <svg class="chevron-back-circle d-flex justify-content-center align-items-center p-2" width="80" height="80">
+                <use xlink:href="#alt-arrow-left-outline"></use>
+            </svg>
+        </div>
+        <div class="section-title mb-4 text-center">
+            <h3 class="mb-4">Customers reviews</h3>
+        </div>
+        <div class="swiper testimonial-swiper ">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="card position-relative text-left p-5 border rounded-3">
+                        <blockquote>"I stumbled upon this bookstore while visiting the city, and it instantly became my favorite spot. The cozy atmosphere, friendly staff, and wide selection of books make every visit a delight!"</blockquote>
+                        <div class="rating text-warning d-flex align-items-center">
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                        </div>
+                        <h5 class="mt-1 fw-normal">Emma Chamberlin</h5>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative text-left p-5 border rounded-3">
+                        <blockquote>"As an avid reader, I'm always on the lookout for new releases, and this bookstore never disappoints. They always have the latest titles, and their recommendations have introduced me to some incredible reads!"</blockquote>
+                        <div class="rating text-warning d-flex align-items-center">
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                        </div>
+                        <h5 class="mt-1 fw-normal">Thomas John</h5>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative text-left p-5 border rounded-3">
+                        <blockquote>"I ordered a few books online from this store, and I was impressed by the quick delivery and careful packaging. It's clear that they prioritize customer satisfaction, and I'll definitely be shopping here again!"</blockquote>
+                        <div class="rating text-warning d-flex align-items-center">
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                        </div>
+                        <h5 class="mt-1 fw-normal">Kevin Bryan</h5>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative text-left p-5 border rounded-3">
+                        <blockquote>“I stumbled upon this tech store while searching for a new laptop, and I couldn't be happier
+                            with my experience! The staff was incredibly knowledgeable and guided me through the process of choosing
+                            the perfect device for my needs. Highly recommended!”</blockquote>
+                        <div class="rating text-warning d-flex align-items-center">
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                        </div>
+                        <h5 class="mt-1 fw-normal">Stevin</h5>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card position-relative text-left p-5 border rounded-3">
+                        <blockquote>“I stumbled upon this tech store while searching for a new laptop, and I couldn't be happier
+                            with my experience! The staff was incredibly knowledgeable and guided me through the process of choosing
+                            the perfect device for my needs. Highly recommended!”</blockquote>
+                        <div class="rating text-warning d-flex align-items-center">
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                            <svg class="star star-fill">
+                                <use xlink:href="#star-fill"></use>
+                            </svg>
+                        </div>
+                        <h5 class="mt-1 fw-normal">Roman</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="latest-posts" class="padding-large">
+    <div class="container">
+        <div class="section-title d-md-flex justify-content-between align-items-center mb-4">
+            <h3 class="d-flex align-items-center">Latest posts</h3>
+            <a href="#" class="btn">View All</a>
+        </div>
+        <div class="row">
+            <div class="col-md-3 posts mb-4">
+                <img src="images/post-item1.jpg" alt="post image" class="img-fluid rounded-3">
+                <a href="blog.html" class="fs-6 text-primary">Books</a>
+                <h4 class="card-title mb-2 text-capitalize text-dark"><a href="#">10 Must-Read Books of the Year: Our Top Picks!</a></h4>
+                <p class="mb-2">Dive into the world of cutting-edge technology with our latest blog post, where we highlight
+                    five essential gadge. <span><a class="text-decoration-underline text-black-50" href="#">Read More</a></span>
+                </p>
+            </div>
+            <div class="col-md-3 posts mb-4">
+                <img src="images/post-item2.jpg" alt="post image" class="img-fluid rounded-3">
+                <a href="blog.html" class="fs-6 text-primary">Books</a>
+                <h4 class="card-title mb-2 text-capitalize text-dark"><a href="#">The Fascinating Realm of Science Fiction</a></h4>
+                <p class="mb-2">Explore the intersection of technology and sustainability in our latest blog post. Learn about
+                    the innovative <span><a class="text-decoration-underline text-black-50" href="#">Read More</a></span> </p>
+            </div>
+            <div class="col-md-3 posts mb-4">
+                <img src="images/post-item3.jpg" alt="post image" class="img-fluid rounded-3">
+                <a href="blog.html" class="fs-6 text-primary">Books</a>
+                <h4 class="card-title mb-2 text-capitalize text-dark"><a href="#">Finding Love in the Pages of a Book</a></h4>
+                <p class="mb-2">Stay ahead of the curve with our insightful look into the rapidly evolving landscape of
+                    wearable technology. <span><a class="text-decoration-underline text-black-50" href="#">Read More</a></span>
+                </p>
+            </div>
+            <div class="col-md-3 posts mb-4">
+                <img src="images/post-item4.jpg" alt="post image" class="img-fluid rounded-3">
+                <a href="blog.html" class="fs-6 text-primary">Books</a>
+                <h4 class="card-title mb-2 text-capitalize text-dark"><a href="#">Reading for Mental Health: How Books Can Heal and Inspire</a></h4>
+                <p class="mb-2">In today's remote work environment, productivity is key. Discover the top apps and tools that
+                    can help you stay <span><a class="text-decoration-underline text-black-50" href="#">Read More</a></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="instagram">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h3>Instagram</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <figure class="instagram-item position-relative rounded-3">
+                    <a href="https://templatesjungle.com/" class="image-link position-relative">
+                        <div class="icon-overlay position-absolute d-flex justify-content-center">
+                            <svg class="instagram">
+                                <use xlink:href="#instagram"></use>
+                            </svg>
+                        </div>
+                        <img src="images/insta-item1.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
+                    </a>
+                </figure>
+            </div>
+            <div class="col-md-2">
+                <figure class="instagram-item position-relative rounded-3">
+                    <a href="https://templatesjungle.com/" class="image-link position-relative">
+                        <div class="icon-overlay position-absolute d-flex justify-content-center">
+                            <svg class="instagram">
+                                <use xlink:href="#instagram"></use>
+                            </svg>
+                        </div>
+                        <img src="images/insta-item2.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
+                    </a>
+                </figure>
+            </div>
+            <div class="col-md-2">
+                <figure class="instagram-item position-relative rounded-3">
+                    <a href="https://templatesjungle.com/" class="image-link position-relative">
+                        <div class="icon-overlay position-absolute d-flex justify-content-center">
+                            <svg class="instagram">
+                                <use xlink:href="#instagram"></use>
+                            </svg>
+                        </div>
+                        <img src="images/insta-item3.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
+                    </a>
+                </figure>
+            </div>
+            <div class="col-md-2">
+                <figure class="instagram-item position-relative rounded-3">
+                    <a href="https://templatesjungle.com/" class="image-link position-relative">
+                        <div class="icon-overlay position-absolute d-flex justify-content-center">
+                            <svg class="instagram">
+                                <use xlink:href="#instagram"></use>
+                            </svg>
+                        </div>
+                        <img src="images/insta-item4.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
+                    </a>
+                </figure>
+            </div>
+            <div class="col-md-2">
+                <figure class="instagram-item position-relative rounded-3">
+                    <a href="https://templatesjungle.com/" class="image-link position-relative">
+                        <div class="icon-overlay position-absolute d-flex justify-content-center">
+                            <svg class="instagram">
+                                <use xlink:href="#instagram"></use>
+                            </svg>
+                        </div>
+                        <img src="images/insta-item5.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
+                    </a>
+                </figure>
+            </div>
+            <div class="col-md-2">
+                <figure class="instagram-item position-relative rounded-3">
+                    <a href="https://templatesjungle.com/" class="image-link position-relative">
+                        <div class="icon-overlay position-absolute d-flex justify-content-center">
+                            <svg class="instagram">
+                                <use xlink:href="#instagram"></use>
+                            </svg>
+                        </div>
+                        <img src="images/insta-item6.jpg" alt="instagram" class="img-fluid rounded-3 insta-image">
+                    </a>
+                </figure>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="footer" class="padding-large">
+    <div class="container">
+        <div class="row">
+            <div class="footer-top-area">
+                <div class="row d-flex flex-wrap justify-content-between">
+                    <div class="col-lg-3 col-sm-6 pb-3">
+                        <div class="footer-menu">
+                            <img src="images/main-logo.png" alt="logo" class="img-fluid mb-2">
+                            <p>Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit hendrerit. Gravida massa volutpat aenean odio
+                                erat nullam fringilla.</p>
+                            <div class="social-links">
+                                <ul class="d-flex list-unstyled">
+                                    <li>
+                                        <a href="#">
+                                            <svg class="facebook">
+                                                <use xlink:href="#facebook" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <svg class="instagram">
+                                                <use xlink:href="#instagram" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <svg class="twitter">
+                                                <use xlink:href="#twitter" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <svg class="linkedin">
+                                                <use xlink:href="#linkedin" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <svg class="youtube">
+                                                <use xlink:href="#youtube" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 pb-3">
+                        <div class="footer-menu text-capitalize">
+                            <h5 class="widget-title pb-2">Quick Links</h5>
+                            <ul class="menu-list list-unstyled text-capitalize">
+                                <li class="menu-item mb-1">
+                                    <a href="#">Home</a>
+                                </li>
+                                <li class="menu-item mb-1">
+                                    <a href="#">About</a>
+                                </li>
+                                <li class="menu-item mb-1">
+                                    <a href="#">Shop</a>
+                                </li>
+                                <li class="menu-item mb-1">
+                                    <a href="#">Blogs</a>
+                                </li>
+                                <li class="menu-item mb-1">
+                                    <a href="#">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 pb-3">
+                        <div class="footer-menu text-capitalize">
+                            <h5 class="widget-title pb-2">Help & Info Help</h5>
+                            <ul class="menu-list list-unstyled">
+                                <li class="menu-item mb-1">
+                                    <a href="#">Track Your Order</a>
+                                </li>
+                                <li class="menu-item mb-1">
+                                    <a href="#">Returns Policies</a>
+                                </li>
+                                <li class="menu-item mb-1">
+                                    <a href="#">Shipping + Delivery</a>
+                                </li>
+                                <li class="menu-item mb-1">
+                                    <a href="#">Contact Us</a>
+                                </li>
+                                <li class="menu-item mb-1">
+                                    <a href="#">Faqs</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 pb-3">
+                        <div class="footer-menu contact-item">
+                            <h5 class="widget-title text-capitalize pb-2">Contact Us</h5>
+                            <p>Do you have any queries or suggestions? <a href="mailto:"
+                                                                          class="text-decoration-underline">yourinfo@gmail.com</a></p>
+                            <p>If you need support? Just give us a call. <a href="#" class="text-decoration-underline">+55 111 222
+                                    333 44</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<hr>
+<div id="footer-bottom" class="mb-2">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between">
+            <div class="ship-and-payment d-flex gap-md-5 flex-wrap">
+                <div class="shipping d-flex">
+                    <p>We ship with:</p>
+                    <div class="card-wrap ps-2">
+                        <img src="images/dhl.png" alt="visa">
+                        <img src="images/shippingcard.png" alt="mastercard">
+                    </div>
+                </div>
+                <div class="payment-method d-flex">
+                    <p>Payment options:</p>
+                    <div class="card-wrap ps-2">
+                        <img src="images/visa.jpg" alt="visa">
+                        <img src="images/mastercard.jpg" alt="mastercard">
+                        <img src="images/paypal.jpg" alt="paypal">
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© Copyright 2024 Bookly. HTML Template by <a href="https://templatesjungle.com/"
+                                                                target="_blank">TemplatesJungle</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--<script src="js/jquery-1.11.0.min.js"></script>--}}
+@vite(['resources/js/jquery-1.11.0.min.js', 'resources/js/script.js'])
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+{{--<script type="text/javascript" src="js/script.js"></script>--}}
+</body>
 </html>
