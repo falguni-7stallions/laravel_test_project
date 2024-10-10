@@ -8,7 +8,7 @@
     <div x-data="categoryModal()" x-init="init()">
         <x-modal name="addNewModal" :show="false" maxWidth="lg" id="addNewModal">
             <div class="modal-header">
-                <h5 class="modal-title">Category Form</h5>
+                <h5 class="modal-title" x-text="modalTitle"></h5>
                 <button type="button" class="btn-close" aria-label="Close" x-on:click.prevent="$dispatch('close-modal', 'addNewModal'); resetForm()"></button>
             </div>
             <!-- Include the form from form.blade.php -->
@@ -74,14 +74,29 @@
             return {
                 categoryId: null,
                 category: { name: '', status: 1 },
+                modalTitle: 'Add Category',
+                modalInstance: null,
 
                 init() {
-                    console.log("Category Modal Initialized");
+                    const modalElement = document.getElementById('addNewModal');
+                    console.log(document.getElementById('addNewModal'));
+                    if (modalElement) {
+                        this.modalInstance = new bootstrap.Modal(modalElement, {
+                            backdrop: 'static', // Prevent closing when clicking outside the modal
+                            keyboard: false // Prevent closing when pressing 'Esc'
+                        });
+                    } else {
+                        console.error('Modal element not found');
+                    }
                 },
 
                 openForCreate() {
-                    this.resetForm(); // Reset the form for new entry
-                    this.$dispatch('open-modal', 'addNewModal'); // Open modal
+                    this.modalTitle = 'Add Category'; // Set title for adding
+                    this.resetForm();
+                    document.getElementById('categoryForm').setAttribute('action', '/category');
+                    document.getElementById('formMethod').value = 'POST';
+                    document.getElementById('submitBtn').innerText = 'Save';
+                    this.modalInstance.show(); // Show modal
                 },
 
                 openForEdit(id) {
@@ -92,13 +107,14 @@
                             this.category = data; // Store fetched data
 
                             // Populate form fields
+                            this.modalTitle = 'Edit Category';
                             document.getElementById('name').value = this.category.name;
                             document.getElementById('status').value = this.category.status;
                             document.getElementById('categoryForm').setAttribute('action', `/category/${id}`); // Set action to update
                             document.getElementById('formMethod').value = 'PUT'; // Set method to PUT
                             document.getElementById('submitBtn').innerText = 'Save'; // Change button text
 
-                            this.$dispatch('open-modal', 'addNewModal'); // Open modal
+                            this.modalInstance.show(); // Show modal
                         })
                         .catch(error => console.error("Error fetching category data:", error));
                 },
