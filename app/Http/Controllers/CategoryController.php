@@ -34,7 +34,8 @@ class CategoryController extends Controller
             'status' => 'required',
         ]);
         category::create($request->all());
-        return redirect('category')->with('success', 'New Category Added');
+        return redirect()->back()->with('success', 'New Category Added');
+//        return redirect('category')->with('success', 'New Category Added');
     }
 
     /**
@@ -48,23 +49,26 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id)
+    public function edit(category $category)
     {
-        $category = category::findOrFail($id);
-        return view('category.form', ['category' => $category]);
+        return response()->json($category);
+//        $category = category::findOrFail($id);
+//        return view('category.form', ['category' => $category]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, int $id)
     {
+        $category = category::findOrFail($id);
         $request->validate([
             'name' => 'required|string',
             'status' => 'required',
         ]);
-        category::update($request->all());
-        return redirect('category')->with('success', 'Category Updated');
+        $category->update($request->all());
+        return redirect()->back()->with('success', 'Category Updated');
+//        return redirect('category')->with('success', 'Category Updated');
     }
 
     /**
