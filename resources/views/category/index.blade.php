@@ -2,18 +2,24 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Category') }}
-            <button x-data="" class="btn btn-primary float-end" x-on:click.prevent="$dispatch('open-modal', 'addNewModal')">{{ __('Add New') }}</button>
+            <button class="btn btn-primary float-end" id="createNewCategory">{{ __('Add New') }}</button>
         </h2>
     </x-slot>
-    <div x-data="categoryModal()" x-init="init()">
-        <x-modal name="addNewModal" :show="false" maxWidth="lg" id="addNewModal">
-            <div class="modal-header">
-                <h5 class="modal-title" x-text="modalTitle"></h5>
-                <button type="button" class="btn-close" aria-label="Close" x-on:click.prevent="$dispatch('close-modal', 'addNewModal'); resetForm()"></button>
+{{--    <div x-data="categoryModal()" x-init="init()">--}}
+    <div class="modal fade" id="ajaxModel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modelHeading"></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @include('category.form')
+                </div>
             </div>
-            <!-- Include the form from form.blade.php -->
-            @include('category.form')
-        </x-modal>
+        </div>
+    </div>
+
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 @if(session('success'))
@@ -41,7 +47,7 @@
                                             <button class="text-muted btn btn-transparent btn-xs dropdown-toggle"  id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a href="#" class="dropdown-item" x-data="" x-on:click.prevent="openForEdit({{ $category->id }})"><i class="fa fa-pencil"></i> Edit</a></li>
+                                                <li><a href="#" class="dropdown-item editCategory" data-id="{{$category->id}}"><i class="fa fa-pencil"></i> Edit</a></li>
                                                 <li>
                                                     <form method="POST" action="{{ route('category.destroy', $category->id) }}" onsubmit="return confirm('Are you sure you want to delete this Product?');">
                                                         @csrf
@@ -67,70 +73,85 @@
                 </div>
             </div>
         </div>
-    </div>
+{{--    </div>--}}
 
     <script>
-        function categoryModal() {
-            return {
-                categoryId: null,
-                category: { name: '', status: 1 },
-                modalTitle: 'Add Category',
-                modalInstance: null,
-
-                init() {
-                    const modalElement = document.getElementById('addNewModal');
-                    console.log(document.getElementById('addNewModal'));
-                    if (modalElement) {
-                        this.modalInstance = new bootstrap.Modal(modalElement, {
-                            backdrop: 'static', // Prevent closing when clicking outside the modal
-                            keyboard: false // Prevent closing when pressing 'Esc'
-                        });
-                    } else {
-                        console.error('Modal element not found');
-                    }
-                },
-
-                openForCreate() {
-                    this.modalTitle = 'Add Category'; // Set title for adding
-                    this.resetForm();
-                    document.getElementById('categoryForm').setAttribute('action', '/category');
-                    document.getElementById('formMethod').value = 'POST';
-                    document.getElementById('submitBtn').innerText = 'Save';
-                    this.modalInstance.show(); // Show modal
-                },
-
-                openForEdit(id) {
-                    fetch(`/category/${id}/edit`) // Fetch category data for editing
-                        .then(response => response.json())
-                        .then(data => {
-                            this.categoryId = id;
-                            this.category = data; // Store fetched data
-
-                            // Populate form fields
-                            this.modalTitle = 'Edit Category';
-                            document.getElementById('name').value = this.category.name;
-                            document.getElementById('status').value = this.category.status;
-                            document.getElementById('categoryForm').setAttribute('action', `/category/${id}`); // Set action to update
-                            document.getElementById('formMethod').value = 'PUT'; // Set method to PUT
-                            document.getElementById('submitBtn').innerText = 'Save'; // Change button text
-
-                            this.modalInstance.show(); // Show modal
-                        })
-                        .catch(error => console.error("Error fetching category data:", error));
-                },
-
-                resetForm() {
-                    // Reset form fields
-                    this.categoryId = null;
-                    this.category = { name: '', status: 1 };
-                    document.getElementById('name').value = '';
-                    document.getElementById('status').value = 1; // Default status
-                    document.getElementById('formMethod').value = 'POST'; // Reset to POST for new category
-                    document.getElementById('categoryForm').setAttribute('action', '{{ route("category.store") }}'); // Reset action
-                    document.getElementById('submitBtn').innerText = 'Save'; // Reset button text
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            }
-        }
-    </script>
+            });
+            $('#createNewCategory').click(function () {
+                $('#name').val('');
+                $('#status').val('');
+                $('#categoryForm').trigger("reset");
+                $('#modelHeading').html("<i class='fa fa-plus'></i> Add New Category");
+                $('#ajaxModel').modal('show');
+                // $('#nameError').text('');
+            });
 
+            $('#categoryForm').submit(function(e) {
+                e.preventDefault();
+
+                let formData = new FormData(this);
+                let category_id = $('#category_id').val();
+                let name = $('#name').val();
+                let status = $('#status').val();
+                console.log(name);
+                console.log(status);
+
+                formData.append('name', name);
+                formData.append('status', status);
+                if (category_id) {
+                    formData.append('_method', 'PUT');
+                }
+
+                let ajaxUrl = category_id ? "{{ url('category') }}/" + category_id : "{{ route('category.store') }}";
+                let ajaxType = "POST";
+
+                $('#submitBtn').html('Sending...');
+
+                $.ajax({
+                    type:ajaxType,
+                    url: ajaxUrl,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: (response) => {
+                        console.log(ajaxUrl);
+                        $('#submitBtn').html('Submit');
+                        $('#categoryForm').trigger("reset");
+                        $('#ajaxModel').modal('hide');
+                        location.reload();
+                    },
+                    error: function(response){
+                        $('#submitBtn').html('Submit');
+                        console.log("Error Response:", response);
+                        if (response.responseJSON && response.responseJSON.message) {
+                            alert("Error: " + response.responseJSON.message);
+                        } else {
+                            alert("An unexpected error occurred.");
+                        }
+                    }
+                });
+
+            });
+
+            //edit
+            $('body').on('click', '.editCategory', function () {
+                var category_id = $(this).data('id');
+                $.get("{{ route('category.index') }}" +'/' + category_id +'/edit', function (data) {
+                    $('#modelHeading').html("<i class='fa fa-pencil'></i> Edit Category");
+                    $('#submitBtn').val("Save");
+                    $('#ajaxModel').modal('show');
+                    $('#category_id').val(data.id);
+                    $('#name').val(data.name);
+                    $('#status').val(data.status);
+                })
+            });
+        });
+    </script>
 </x-app-layout>
+
+

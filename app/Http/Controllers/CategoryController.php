@@ -19,22 +19,22 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view('category.index');
-    }
+//    public function create()
+//    {
+//        return view('category.index');
+//    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'status' => 'required',
-        ]);
-        category::create($request->all());
-        return redirect()->back()->with('success', 'New Category Added');
+//        $request->validate([
+//            'name' => 'required|string',
+//            'status' => 'required',
+//        ]);
+        category::create(['name' => $request['name'], 'status' => $request['status']]);
+        return response()->json(['message' => 'data created']);
 //        return redirect('category')->with('success', 'New Category Added');
     }
 
@@ -49,8 +49,9 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(category $category)
+    public function edit($id)
     {
+        $category = category::findOrFail($id);
         return response()->json($category);
 //        $category = category::findOrFail($id);
 //        return view('category.form', ['category' => $category]);
@@ -62,12 +63,12 @@ class CategoryController extends Controller
     public function update(Request $request, int $id)
     {
         $category = category::findOrFail($id);
-        $request->validate([
-            'name' => 'required|string',
-            'status' => 'required',
-        ]);
-        $category->update($request->all());
-        return redirect()->back()->with('success', 'Category Updated');
+//        $request->validate([
+//            'name' => 'required|string',
+//            'status' => 'required',
+//        ]);
+        $category->update(['name' => $request['name'], 'status' => $request['status']]);
+        return response()->json(['message' => 'data Updated']);
 //        return redirect('category')->with('success', 'Category Updated');
     }
 
