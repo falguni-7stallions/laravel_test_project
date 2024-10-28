@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/success', [StripePaymentController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/cancel', [StripePaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
+    Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('products.export');
 
 });
 

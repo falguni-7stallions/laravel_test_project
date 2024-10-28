@@ -3,6 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Products') }}
             <a href="{{route('products.create')}}" class="btn btn-primary float-end">Add New</a>
+            <a href="{{route('products.export')}}" class="btn btn-outline-dark float-end mr-4">Export</a>
         </h2>
     </x-slot>
     <div class="py-12">

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductExport;
 use App\Models\product;
 use App\Models\wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -140,7 +142,6 @@ class ProductController extends Controller
     {
         $product = product::findOrFail($id);
 
-        // You can return only the fields you need
         return response()->json([
             'id' => $product->id,
             'name' => $product->name,
@@ -148,6 +149,12 @@ class ProductController extends Controller
             'price' => $product->price,
             'image' => asset('uploads/products/' . $product->image),
         ]);
+    }
+
+    public function exportProducts()
+    {
+        return Excel::download(new ProductExport, 'product.xlsx');
+
     }
 
 }
