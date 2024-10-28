@@ -18,9 +18,8 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>image</th>
-                            <th>description</th>
-                            <th>price</th>
+                            <th>Category</th>
+                            <th>Price</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -29,8 +28,7 @@
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $product->image }}</td>
-                                <td>{{ $product->description }}</td>
+                                <td>{{ $product->category->name ?? '-' }}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>
                                     <div class="dropdown">

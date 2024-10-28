@@ -26,6 +26,18 @@
                             <x-input-error class="mt-2" :messages="$errors->get('name')" />
                         </div>
                         <div>
+                            <x-input-label for="category_id" :value="__('Category')" />
+                            <select id="category_id" name="category_id" class="mt-1 block w-full">
+                                <option value="">{{ __('Select Category') }}</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ (isset($product) && $product->category_id == $category->id) ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
+                        </div>
+                        <div>
                             <x-input-label for="image" :value="__('Product Image')"/>
                             <x-text-input type="file" class="mt-1 block w-full" id="image" name="image" :value="old('image', $product->image ?? '')"/>
                             @if (isset($product) && $product->image)

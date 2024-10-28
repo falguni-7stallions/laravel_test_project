@@ -19,6 +19,10 @@ class product extends Model
     public function favorites() {
         return $this->hasMany(wishlist::class);
     }
+    public function category()
+    {
+        return $this->belongsTo(category::class);
+    }
     protected static function boot()
     {
         parent::boot();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ProductExport;
+use App\Models\category;
 use App\Models\product;
 use App\Models\wishlist;
 use Illuminate\Http\Request;
@@ -16,8 +17,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = product::paginate(10);
-        return view('products.index', compact('products'));
+        $products = product::with('category')->paginate(10);
+        $categories = category::all();
+        return view('products.index', compact('products', 'categories'));
     }
 
     /**
@@ -25,7 +27,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.form');
+        $categories = category::all();
+        return view('products.form', ['categories' => $categories]);
     }
 
     /**
@@ -43,12 +46,12 @@ class ProductController extends Controller
         $product->name = $request['name'];
         $product->description = $request['description'];
         $product->price = $request['price'];
+        $product->category_id = $request['category_id'];
         if ($request->hasFile('image')){
             $file = $request->file('image');
-            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // Get original filename without extension
-            $file_extension = $file->getClientOriginalExtension(); // Get original file extension
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $file_extension = $file->getClientOriginalExtension();
 
-            // Create a unique filename by appending a unique ID to the original name
             $filename = $originalName . '_' . uniqid() . '.' . $file_extension;
             $file->move('uploads/products/', $filename);
             $product->image = $filename;
@@ -72,7 +75,8 @@ class ProductController extends Controller
     public function edit(product $products, int $id)
     {
         $product = product::findOrFail($id);
-        return view('products.form', compact('product', 'id'));
+        $categories = category::all();
+        return view('products.form', compact('product','categories'));
     }
 
     /**
@@ -89,6 +93,7 @@ class ProductController extends Controller
         $product->name = $request['name'];
         $product->description = $request['description'];
         $product->price = $request['price'];
+        $product->category_id = $request['category_id'];
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // Get the original filename
