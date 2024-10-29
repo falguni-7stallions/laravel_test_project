@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -43,5 +44,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function sendMail($user)
+    {
+        Mail::send('mails.welcome', ['user' => $user], function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Welcome to Our Application');
+        });
     }
 }
