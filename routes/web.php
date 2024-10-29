@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SmsController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::get('/view-products', [ProductController::class, 'viewProducts'])->name('products.viewProducts');
     Route::get('/product/{id}', [ProductController::class, 'getProduct'])->name('product.get');
+    Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('products.export');
 
     //cart routes
     Route::post('/cart/add', [CartController::class, 'addToCart']);
@@ -50,7 +52,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/success', [StripePaymentController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/cancel', [StripePaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
-    Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('products.export');
+    //for sending sms
+    Route::get('/send-sms', [SMSController::class, 'showForm'])->name('sms.form');
+    Route::post('/send-sms', [SMSController::class, 'sendSms'])->name('sms.send');
+
+    //for otp verification
+    Route::get('/otp-form', function () {
+        return view('sms.send_otp');
+    })->name('otp.form');
+    Route::get('/verify-otp', function () {
+        return view('sms.verify_otp');
+    })->name('verify.form');
+    Route::post('/send-otp', [SMSController::class, 'sendOtp']);
+    Route::post('/verify-otp', [SMSController::class, 'verifyOtp']);
 
 });
 
