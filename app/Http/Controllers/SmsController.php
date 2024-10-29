@@ -60,19 +60,13 @@ class SmsController extends Controller
 
         $phone = $request->input('phone');
         $otp = $request->input('otp');
-
-        // Find the OTP entry for this phone
         $otpEntry = Otp::where('phone', $phone)->first();
 
         if (!$otpEntry) {
             return response()->json(['status' => 'OTP not found for this phone number'], 404);
         }
 
-        // Check if OTP is valid
         if ($otpEntry->otp === $otp && Carbon::now()->lessThanOrEqualTo($otpEntry->expires_at)) {
-            // OTP is valid, you can proceed with your logic (e.g., login, registration)
-
-            // Optionally, delete the OTP record after successful verification
             $otpEntry->delete();
 
             return response()->json(['status' => 'OTP verified successfully']);

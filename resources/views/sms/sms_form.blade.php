@@ -1,4 +1,3 @@
-<!-- resources/views/sms_form.blade.php -->
 
 <!DOCTYPE html>
 <html>
