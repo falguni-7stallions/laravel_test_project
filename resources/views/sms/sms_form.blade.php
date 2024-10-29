@@ -1,25 +1,37 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Send SMS</title>
-</head>
-<body>
-<h1>Send SMS</h1>
+<x-app-layout>
 
-@if (session('status'))
-    <p style="color: green;">{{ session('status') }}</p>
-@endif
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ __('Send SMS') }}
+    </h2>
+</x-slot>
 
-<form action="{{ route('sms.send') }}" method="POST">
-    @csrf
-    <label for="phone">Phone Number:</label>
-    <input type="text" id="phone" name="phone" required>
-
-    <label for="message">Message:</label>
-    <textarea id="message" name="message" required></textarea>
-
-    <button type="submit">Send SMS</button>
-</form>
-</body>
-</html>
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        @if (session('status'))
+            <div class="alert alert-success">{{ session('status') }}</div>
+        @endif
+        <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="max-w-xl">
+                <form action="{{ route('sms.send') }}" method="POST" class="mt-6 space-y-6">
+                    @csrf
+                    <div>
+                        <x-input-label for="phone" :value="__('Phone Number')" />
+                        <x-text-input type="text" class="mt-1 block w-full" id="phone" name="phone" />
+                        <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+                    </div>
+                    <div>
+                        <x-input-label for="message" :value="__('Message')" />
+                        <x-text-area rows="3" class="mt-1 block w-full" id="message" name="message"></x-text-area>
+                        <x-input-error class="mt-2" :messages="$errors->get('message')" />
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <x-primary-button>{{ __('Send SMS') }}</x-primary-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</x-app-layout>

@@ -25,6 +25,20 @@
                             {{ __('All Products') }}
                         </x-nav-link>
                     </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link data-bs-toggle="dropdown" href="#" role="button"
+                           aria-expanded="false">testing Packages</x-nav-link>
+                        <ul class="dropdown-menu animate slide border">
+                            <li>
+                                <a href="{{ route('sms.form') }}" class="dropdown-item fw-light">Twilio SMS</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('otp.form') }}" class="dropdown-item fw-light">Twilio OTP</a>
+                            </li>
+
+                        </ul>
+
+                    </div>
                 </div>
             </div>
 
