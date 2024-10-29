@@ -66,6 +66,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/send-otp', [SMSController::class, 'sendOtp']);
     Route::post('/verify-otp', [SMSController::class, 'verifyOtp']);
 
+    Route::get('/product-category-data', [ProductController::class, 'productCategoryData']);
+    Route::get('/products-chart', function () {
+        return view('products.chart');
+    });
+
 });
 
 

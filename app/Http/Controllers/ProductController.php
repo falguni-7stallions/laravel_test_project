@@ -161,5 +161,21 @@ class ProductController extends Controller
         return Excel::download(new ProductExport, 'product.xlsx');
 
     }
+    //pie chart
+    public function productCategoryData()
+    {
+        $categoryData = product::selectRaw('category_id, COUNT(*) as count')
+            ->groupBy('category_id')
+            ->with('category')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'category' => optional($item->category)->name ?? 'Unknown Category',
+                    'count' => $item->count
+                ];
+            });
+
+        return response()->json($categoryData);
+    }
 
 }
