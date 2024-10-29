@@ -16,6 +16,11 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('category.index')" :active="request()->routeIs('products')">
+                            {{ __('Category') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products')">
                             {{ __('Products') }}
                         </x-nav-link>
