@@ -70,6 +70,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/products-chart', function () {
         return view('products.chart');
     });
+    Route::get('/products-bar-chart', function () {
+        return view('products.bar-chart');
+    });
 
 });
 
