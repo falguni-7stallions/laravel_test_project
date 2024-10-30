@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
         $messages['greetings'] = 'Thank you for registration in Bookly.';
         //notification
 //        Notification::send($user, new RegistrationMail($messages));
-        $user->notify(new RegistrationMail($messages));
+//        $user->notify(new RegistrationMail($messages));
 
         //mail
 //        $user->sendMail($user);
