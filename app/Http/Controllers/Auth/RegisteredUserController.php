@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\RegistrationMail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -40,6 +42,13 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $messages['hi'] = "hello {$user->name},";
+        $messages['greetings'] = 'Thank you for registration in Bookly.';
+        //notification
+//        Notification::send($user, new RegistrationMail($messages));
+        $user->notify(new RegistrationMail($messages));
+
+        //mail
 //        $user->sendMail($user);
 
         event(new Registered($user));
