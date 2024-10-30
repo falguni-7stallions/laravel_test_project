@@ -42,9 +42,10 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        $messages['hi'] = "hello {$user->name},";
-        $messages['greetings'] = 'Thank you for registration in Bookly.';
         //notification
+//        $messages['hi'] = "hello {$user->name},";
+//        $messages['greetings'] = 'Thank you for registration in Bookly.';
+
 //        Notification::send($user, new RegistrationMail($messages));
 //        $user->notify(new RegistrationMail($messages));
 
